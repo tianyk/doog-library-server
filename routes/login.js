@@ -11,6 +11,7 @@ var router = express.Router();
 
 
 router.post('/', function(req, res) {
+    // return res.status(400).json();
     res.json({
         token: 'hello, world.'
     });
