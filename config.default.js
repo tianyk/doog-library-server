@@ -3,7 +3,14 @@
  */
 var config = {
     db: 'mongodb://127.0.0.1/node_club_test',
-    logDir: '/data/logs/'
+    logDir: __dirname + '/logs/',
+    mysql: {
+        host: '127.0.0.1',
+        port: '',
+        database: 'doog',
+        username: 'root',
+        password: 'root'
+    }
 }
 
 // 差异配置
@@ -19,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 
 if (process.env.NODE_ENV === 'production') {
     config.db = 'mongodb://127.0.0.1/node_club_test';
-    config.logDir = __dirname + '/logs/';
+    config.logDir = '/logs/';
 }
 
 module.exports = config;

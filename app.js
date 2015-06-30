@@ -3,7 +3,7 @@ var path = require('path');
 var FileStreamRotator = require('file-stream-rotator');
 var mkdirp = require('mkdirp');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
@@ -36,11 +36,11 @@ var accessLogStream = FileStreamRotator.getStream({
     date_format: 'YYYY-MM-DD'
 });
 
-logger.token('sid', function(req) {
+morgan.token('sid', function(req) {
     return req.sessionID || 'NoSessionID';
 });
 // [日期] "请求方法 请求URL 响应码 响应时间 ms HTTP协议版本" "SessionID" 客户端IP 远端用户 响应体大小 "响应头referrer" "浏览器UA"
-app.use(logger('[:date[iso]] ":method :url :status :response-time ms - HTTP/:http-version" ":sid" :remote-addr - :remote-user :res[content-length] ":referrer" ":user-agent"', {
+app.use(morgan('[:date[iso]] ":method :url :status :response-time ms - HTTP/:http-version" ":sid" :remote-addr - :remote-user :res[content-length] ":referrer" ":user-agent"', {
     stream: accessLogStream
 }));
 
