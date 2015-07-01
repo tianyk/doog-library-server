@@ -1,20 +1,28 @@
+/**
+ * [Sequelize description]
+ * @type {[type]}
+ */
 var Sequelize = require('sequelize');
-var config = require('../config').mysql;
+var mysql = require('../config').mysql;
 
-var sequelize = new Sequelize(config.database, config.username, config.password, {
+var sequelize = new Sequelize(mysql.database, mysql.username, mysql.password, {
     host: 'localhost',
     dialect: 'mysql',
 
     pool: {
         max: 5,
-        min: 0,
+        min: 3,
         idle: 10000
     }
 });
 
 var User = sequelize.import(__dirname + '/user');
-// var User = sequelize.import('User', require('./user'));
+var Book = sequelize.import(__dirname + '/book');
 
+exports.user = User;
+exports.book = Book;
+
+// var User = sequelize.import('User', require('./user'));
 // var fs = require('fs');
 // var path = require('path');
 // var db = {};
@@ -56,43 +64,43 @@ var User = sequelize.import(__dirname + '/user');
 //     force: true
 // });
 
-User
-    .create({
-        username: 'tyk'
-    })
-    .then(function(user) {
-        console.log(user.get({
-            plain: true
-        }));
-    })
+// User
+//     .create({
+//         username: 'tyk'
+//     })
+//     .then(function(user) {
+//         console.log(user.get({
+//             plain: true
+//         }));
+//     })
 
 
-// search for known ids
-User.findById(2).then(function(user) {
-    console.log(user.get({
-        plain: true
-    }));
-})
+// // search for known ids
+// User.findById(2).then(function(user) {
+//     console.log(user.get({
+//         plain: true
+//     }));
+// })
 
-// // search for attributes
-User.findOne({
-    where: {
-        username: 'tyk'
-    }
-}).then(function(user) {
-    if (!user)
-        console.log(user.get({
-            plain: true
-        }));
-})
+// // // search for attributes
+// User.findOne({
+//     where: {
+//         username: 'tyk'
+//     }
+// }).then(function(user) {
+//     if (!user)
+//         console.log(user.get({
+//             plain: true
+//         }));
+// })
 
 
-User.findOne({
-    where: {
-        username: 'tyk'
-    },
-    attributes: ['id', ['name', 'title']]
-}).then(function(user) {
-    // User will be the first entry of the Users table with the title 'aUser' || null
-    // User.title will contain the name of the User
-})
+// User.findOne({
+//     where: {
+//         username: 'tyk'
+//     },
+//     attributes: ['id', ['name', 'title']]
+// }).then(function(user) {
+//     // User will be the first entry of the Users table with the title 'aUser' || null
+//     // User.title will contain the name of the User
+// })
