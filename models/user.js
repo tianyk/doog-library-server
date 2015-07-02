@@ -14,6 +14,42 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     }, {
+        defaultScope: {
+            where: {
+                active: true
+            }
+        },
+        scopes: {
+            deleted: {
+                where: {
+                    deleted: true
+                }
+            },
+            activeUsers: {
+                include: [{
+                    model: User,
+                    where: {
+                        active: true
+                    }
+                }]
+            }
+            random: function() {
+                return {
+                    where: {
+                        someNumber: Math.random()
+                    }
+                }
+            },
+            accessLevel: function(value) {
+                return {
+                    where: {
+                        accessLevel: {
+                            $gte: value
+                        }
+                    }
+                }
+            }
+        },
         timestamps: true, // updatedAt, createdAt
         paranoid: true, // 软删除
         freezeTableName: true, // 设置为true后，表名不会使用model的复数形式

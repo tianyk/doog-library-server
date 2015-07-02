@@ -15,8 +15,8 @@ var Book = require('../models').book;
  */
 function search(q, tag, start, count, cb) {
     var query = {};
-    if (!q) qeury.q = q;
-    if (!tag) query.tag = tag;
+    if (!q) qeury['$like'] = '%' + q + '%';
+    if (!tag) query['tag'] = tag;
 
     Book.findAll({
         where: query,

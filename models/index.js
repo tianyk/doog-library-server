@@ -16,13 +16,13 @@ var sequelize = new Sequelize(mysql.database, mysql.username, mysql.password, {
     }
 });
 
+// var User = sequelize.import('User', require('./user'));
 var User = sequelize.import(__dirname + '/user');
 var Book = sequelize.import(__dirname + '/book');
 
 exports.user = User;
 exports.book = Book;
 
-// var User = sequelize.import('User', require('./user'));
 // var fs = require('fs');
 // var path = require('path');
 // var db = {};
