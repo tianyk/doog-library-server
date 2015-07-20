@@ -113,44 +113,49 @@ var Project = sequelize.define('project', {
 
 var async = require('async');
 
-async.series([
-    function(callback) {
-        Project.sync({
-            force: true
-        }).then(function() {
-            callback();
-        }).catch(function(err) {
-            callback(err);
-        });
-    },
-    function(callback) {
-        async.filter([1, 2, 3, 4, 5, 6, 7, 8, 9, 0], function(index, callback) {
-            Project.create({
-                title: 'project_' + index,
-                active: true,
-                accessLevel: 1
-            }).then(callback);
-        }, function() {
-            callback();
-        })
-    },
-    function(callback) {
-        // 删除
-        Project.destroy({
-            where: {
-                title: 'project_1'
-            }
-        }).then(callback);
-    },
-    function(callback) {
-        // 查询
-        // 需要注意每次查询默认都加`deletedAt` IS NULL
+// async.series([
+//     function(callback) {
+//         Project.sync({
+//             force: true
+//         }).then(function() {
+//             callback();
+//         }).catch(function(err) {
+//             callback(err);
+//         });
+//     },
+//     function(callback) {
+//         async.filter([1, 2, 3, 4, 5, 6, 7, 8, 9, 0], function(index, callback) {
+//             Project.create({
+//                 title: 'project_' + index,
+//                 active: true,
+//                 accessLevel: 1
+//             }).then(callback);
+//         }, function() {
+//             callback();
+//         })
+//     },
+//     function(callback) {
+//         // 删除
+//         Project.destroy({
+//             where: {
+//                 title: 'project_1'
+//             }
+//         }).then(callback);
+//     },
+//     function(callback) {
+//         // 查询
+//         // 需要注意每次查询默认都加`deletedAt` IS NULL
+//         Project.scope('deleted', {
+//             method: ['accessLevel', 19]
+//         }).findAll();
+//     }
+// ], function(err, results) {
+//     console.log(err);
+//     // 显示自start 而流逝的时间
+//     // console.log('Completed in ' + (new Date - start) + 'ms');
+// });
+
+
         Project.scope('deleted', {
-            method: ['accessLevel', 19]
+            // method: ['accessLevel', 19]
         }).findAll();
-    }
-], function(err, results) {
-    console.log(err);
-    // 显示自start 而流逝的时间
-    // console.log('Completed in ' + (new Date - start) + 'ms');
-});

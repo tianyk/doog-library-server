@@ -22,7 +22,11 @@ module.exports = function(sequelize, DataTypes) {
         scopes: {
             deleted: {
                 where: {
-                    deleted: true
+                    // 有问题，会出现类似的SQL
+                    // (`project`.`deletedAt` IS NULL AND `project`.`deletedAt` IS NOT NULL)
+                    deletedAt: {
+                        '$ne': null
+                    }
                 }
             },
             activeUsers: {
