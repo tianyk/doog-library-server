@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-app.use(favicon(__dirname + '/public/favicon.ico'));
+// app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -24,33 +24,11 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-if (app.get('env') === 'production') {
-    var FileStreamRotator = require('file-stream-rotator');
-    var mkdirp = require('mkdirp');
-
-    // HTTP日志
-    var logDirectory = config.logDir;
-    // ensure log directory exists
-    mkdirp.sync(logDirectory);
-    var accessLogStream = FileStreamRotator.getStream({
-        filename: logDirectory + '/access-%DATE%.log',
-        frequency: 'daily',
-        verbose: false, // 开发模式下打开
-        date_format: 'YYYY-MM-DD'
-    });
-    morgan.token('sid', function(req) {
-        return req.sessionID || 'NoSessionID';
-    });
-    // [日期] "请求方法 请求URL 响应码 响应时间 ms HTTP协议版本" "SessionID" 客户端IP 远端用户 响应体大小 "响应头referrer" "浏览器UA"
-    app.use(morgan('[:date[iso]] ":method :url :status :response-time ms - HTTP/:http-version" ":sid" :remote-addr - :remote-user :res[content-length] ":referrer" ":user-agent"', {
-        stream: accessLogStream
-    }));
-} else {
-    app.use(morgan('dev'));
-}
+app.use(morgan('short'));
 
 app.use(location());
 app.use('/', routes);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -66,6 +44,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
+        console.log(err.stack);
         res.status(err.status || 500);
         res.json({
             message: err.message,
@@ -77,6 +56,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+    console.log(err.stack);
     res.status(err.status || 500);
     res.json({
         message: err.message,

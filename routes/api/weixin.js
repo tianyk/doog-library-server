@@ -1,9 +1,8 @@
-var cors = require('cors');
 var express = require('express');
 var router = express.Router();
 
-var api = require('./api');
+var weixin = require('../../controllers/weixin');
 
-router.use('/api', api);
+router.get('/js-sdk', weixin.JSSdk);
 
 module.exports = router;
