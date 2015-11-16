@@ -12,9 +12,13 @@ var config = {
         username: 'root',
         password: 'root'
     },
-    wx: {
-        api: 'wx32149df9290ce58d',
+    weixin: {
+        appid: 'wx32149df9290ce58d',
         secret: '0406878290195982411b324b5c52881c'
+    },
+    rcc: {
+        host: '127.0.0.1',
+        port: '6379'
     }
 }
 

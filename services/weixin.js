@@ -42,6 +42,6 @@ exports.signJSSdk = function(url, cb) {
 }
 
 
-exports.signJSSdk('http://www.doog.com/api', function(err, data) {
+exports.signJSSdk('http://www.doog.com', function(err, data) {
     console.log(err, data);
 })
